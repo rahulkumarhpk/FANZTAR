@@ -42,4 +42,4 @@ python(ver) app.py e.g python3 app.py
 
 # To run the test cases run the following command
 
-pytest .\tests\test_order_controller.py
+pytest .\tests\

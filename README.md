@@ -27,6 +27,12 @@ git clone https://github.com/rahulkumarhpk/FANZTAR.git
 2. pip
 3. POSTMAN
 
+# For creating virtual environment (Optional)
+
+1. pip install virtualenv
+2. virtualenv venv
+3. source venv/bin/activate (Linux/Mac)
+4. .\venv\Scripts\Activate (windows)
 
 # For installing dependencies paste the command below in terminal
 

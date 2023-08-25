@@ -1,7 +1,7 @@
 from functools import wraps
 import json
 from flask import Blueprint, request, jsonify
-from parts_pricing.parts_pricing import parts_data, price_data
+from parts_pricing.parts_pricing import parts_pricing
 import random
 
 order_app = Blueprint("order_app", __name__)
@@ -38,10 +38,11 @@ def validate_order(func):
             category_counts = {"Screen": 0, "Camera": 0, "Port": 0, "OS": 0, "Body": 0}
 
             for component in components_list:
-                part = parts_data.get(component, "")
-                if part != "":
+                part_info = parts_pricing.get(component)
+                if part_info:
+                    part_name, _ = part_info
                     for category in category_counts.keys():
-                        if category in part:
+                        if category in part_name:
                             category_counts[category] += 1
 
             if all(count == 1 for count in category_counts.values()):
@@ -71,12 +72,11 @@ def create_order():
         ordered_parts = []
 
         for component in components_list:
-            price = price_data.get(component, 0)
-            part = parts_data.get(component, "")
-
-            if price > 0 and part != "":
-                total_price += price
-                ordered_parts.append(part)
+                part_info = parts_pricing.get(component)
+                if part_info:
+                    part_name, price = part_info
+                    total_price += price
+                    ordered_parts.append(part_name)
 
         # Creating orderids
         order_id = random.randint(1000, 99999)
